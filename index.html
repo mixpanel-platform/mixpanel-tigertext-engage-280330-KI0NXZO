@@ -7,9 +7,102 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    
+    <div class="mixpanel-platform-section">
+      <h1>Freemium Registrations | Non-Organic</h1>
+      <div style="clear: both;"></div>
+      <div id="FreemiumRegNO" class="report"></div>
+      <h1>Freemium Registrations Pie Chart</h1>
+      <div style="clear: both;"></div>
+      <div id="FreemiumReg" class="report"></div>
+      <h1>Paid Registrations | Non-Organic</h1>
+      <div style="clear: both;"></div>
+      <div id="PaidRegNO" class="report"></div>
+      <h1>Paid Registrations Pie Chart</h1>
+      <div style="clear: both;"></div>
+      <div id="PaidReg" class="report"></div>
+     </div>
+    <style>
+    h1 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .report {
+     margin: 15px 0; 
+    }
+    </style>
     <script>
-      // Run queries and display results here
+      var FreemiumRegNOLine  = $('#FreemiumRegNO').MPChart({chartType: 'line'});
+      var FreemiumRegPie  = $('#FreemiumReg').MPChart({chartType: 'pie'});
+      var PaidRegNOLine  = $('#PaidRegNO').MPChart({chartType: 'line'});
+      var PaidRegPie  = $('#PaidReg').MPChart({chartType: 'pie'});
+     
+      var Params1 = {
+            from: moment().subtract('30', 'days'),
+            to: moment(),
+            type: 'general',
+            unit: 'day',
+            where: 'properties["Org Type"] == "Free" and user["Install Type"] == "Non-organic"',
+      };
+      
+      var Params2 = {
+            from: moment().subtract('30', 'days'),
+            to: moment(),
+            type: 'general',
+            unit: 'day',
+            where: 'properties["Org Type"] == "Free"',
+      };
+      
+      var Params3 = {
+            from: moment().subtract('30', 'days'),
+            to: moment(),
+            type: 'general',
+            unit: 'day',
+            where: 'properties["Org Type"] == "N/A" or properties["Org Type"] == "Paid" or properties["Org Type"] ==                  "Personal") and (properties["Install Type"] == "Non-organic"',
+      };
+      
+      var Params4 = {
+            from: moment().subtract('30', 'days'),
+            to: moment(),
+            type: 'general',
+            unit: 'day',
+            where: 'properties["Org Type"] == "N/A" or properties["Org Type"] == "Paid" or properties["Org Type"] ==                 "Personal"',
+      };
+      
+      
+      runQuery();
+       function runQuery() {
+        
+        //Freemium Registrations | Non-Organic
+        
+        MP.api.segment('$custom_event:8257', Params1).done(function(results) {
+            
+            FreemiumRegNOLine.MPChart('setData', results)
+        });
+        
+         //Freemium Registrations Pie Chart
+        
+        MP.api.segment('Complete Purchase', 'Card Type', Params2).done(function(results) {
+            
+            TopContentBar.MPChart('setData', results);
+        });
+        
+        //Paid Registrations | Non-Organic
+        
+        MP.api.segment('Account Created', 'Campaign Source', Params3).done(function(results) {
+            
+            ContentbyInitialReferrerBar.MPChart('setData', results);
+        });
+        
+        //Paid Registrations Pie Chart
+        
+       MP.api.segment('Account Created', 'Campaign Source', Params4).done(function(results) {
+            
+            ContentbyInitialReferrerBar.MPChart('setData', results);
+        });
+        
+        }
+
     </script>
   </body>
 </html>
