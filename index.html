@@ -51,6 +51,7 @@
             type: 'general',
             unit: 'day',
             where: 'properties["Org Type"] == "Free"',
+            on: 'user["Install Type"]'
       };
       
       var Params3 = {
@@ -67,6 +68,8 @@
             type: 'general',
             unit: 'day',
             where: 'properties["Org Type"] == "N/A" or properties["Org Type"] == "Paid" or properties["Org Type"] == "Personal"',
+            on: 'user["Install Type"]'
+
       };
       
       
@@ -82,7 +85,7 @@
         
          //Freemium Registrations Pie Chart
         
-        MP.api.segment('$custom_event:8257', 'Install Type', Params2).done(function(results) {
+        MP.api.segment('$custom_event:8257', Params2).done(function(results) {
             
             FreemiumRegPie.MPChart('setData', results);
         });
@@ -96,7 +99,7 @@
         
         //Paid Registrations Pie Chart
         
-       MP.api.segment('$custom_event:8257', 'Install Type', Params4).done(function(results) {
+       MP.api.segment('$custom_event:8257', Params4).done(function(results) {
             
             PaidRegPie.MPChart('setData', results);
         });
