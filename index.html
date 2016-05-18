@@ -82,21 +82,21 @@
         
          //Freemium Registrations Pie Chart
         
-        MP.api.segment('Complete Purchase', 'Card Type', Params2).done(function(results) {
+        MP.api.segment('$custom_event:8257', 'Install Type', Params2).done(function(results) {
             
-            TopContentBar.MPChart('setData', results);
+            FreemiumRegPie.MPChart('setData', results);
         });
         
         //Paid Registrations | Non-Organic
         
-        MP.api.segment('Account Created', 'Campaign Source', Params3).done(function(results) {
+        MP.api.segment('$custom_event:8257', Params3).done(function(results) {
             
-            ContentbyInitialReferrerBar.MPChart('setData', results);
+            PaidRegNOLine.MPChart('setData', results);
         });
         
         //Paid Registrations Pie Chart
         
-       MP.api.segment('Account Created', 'Campaign Source', Params4).done(function(results) {
+       MP.api.segment('$custom_event:8257', 'Install Type', Params4).done(function(results) {
             
             ContentbyInitialReferrerBar.MPChart('setData', results);
         });
